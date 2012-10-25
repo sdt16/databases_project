@@ -8,7 +8,7 @@ DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
-DATABASE = 'postgresql://devo:test@localhost:5432/bookmgr_test'
+SQLALCHEMY_DATABASE_URI = 'postgresql://devo:test@localhost:5432/bookmgr_test'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -16,7 +16,7 @@ app.config.from_object(__name__)
 app.config.from_envvar('BOOKMGR_SETTINGS', silent=True)
 
 def connect_db():
-	return create_engine(app.config['DATABASE'])
+	return create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 
 @app.route('/')
 def home():
