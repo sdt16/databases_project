@@ -1,5 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
-from bookmgr import app
+from flask import Flask
+
+#configuration
+DEBUG = True
+SECRET_KEY = 'development key'
+USERNAME = 'admin'
+PASSWORD = 'default'
+SQLALCHEMY_DATABASE_URI = 'postgresql://devo:test@localhost:5432/bookmgr_test'
+
+app = Flask(__name__)
+app.config.from_object(__name__)
+
+app.config.from_envvar('BOOKMGR_SETTINGS', silent=True)
 
 db = SQLAlchemy(app)
 

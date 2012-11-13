@@ -1,0 +1,119 @@
+CREATE TABLE vendor_code
+(
+	vendor_code VARCHAR(255)
+	PRIMARY KEY (vendor_code)
+)
+
+CREATE TABLE user
+(
+	id INTEGER
+	username VARCHAR(255) NOT NULL
+	email VARCHAR(255) NOT NULL
+	password VARCHAR(255) NOT NULL
+	vendor_code VARCHAR(255) NOT NULL
+	PRIMARY KEY (id)
+	FOREIGN KEY (vendor_code) REFERENCES vendor_code(vendor_code)
+)
+
+CREATE TABLE series
+(
+	id INTEGER
+	title VARCHAR(255) NOT NULL
+	begin_date TIMESTAMP
+	end_date TIMESTAP
+	PRIMARY KEY (id)
+)
+
+CREATE TYPE territories AS ENUM
+(
+	'US', 
+	'GB', 
+	'FR', 
+	'IT', 
+	'CN', 
+	'JP', 
+	'ES', 
+	'IE', 
+	'DE'	
+)
+
+CREATE TYPE currencies AS ENUM
+(
+	'USD', 
+	'EUR', 
+	'GBP', 
+	'CAD', 
+	'CNY', 
+	'JPY'
+)
+
+CREATE TABLE book
+(
+	id INTEGER
+	vendor_code VARCHAR(255)
+	title VARCHAR(255)
+	imprint VARCHAR(255)
+	eisbn VARCHAR(255)
+	pisbn VARCHAR(255)
+	language VARCHAR(255)
+	list_price INTEGER
+	currency currencies
+	release_date TIMESTAMP
+	publishing_date TIMESTAMP
+	description VARCHAR(255)
+	bisac VARCHAR(255)
+	bic VARCHAR(255)
+	territory territories
+	adult BOOLEAN
+	edition VARCHAR(255)
+	series INTEGER
+	volume VARCHAR(255)
+	PRIMARY KEY (id)
+	FOREIGN KEY series references series(id)
+)
+
+CREATE TABLE person
+(
+	id INTEGER
+	first_name VARCHAR(255)
+	last_name VARCHAR(255)
+	birthday TIMESTAMP
+	PRIMARY KEY (id)
+)
+
+CREATE TABLE authors
+(
+	book_id INTEGER
+	person_id INTEGER
+	PRIMARY KEY (book_id, person_id)
+	FOREIGN KEY book_id REFERENCES book(id)
+	FOREIGN KEY person_id REFERENCES person(id)	
+)
+
+CREATE TABLE editors
+(
+	book_id INTEGER
+	person_id INTEGER
+	PRIMARY KEY (book_id, person_id)
+	FOREIGN KEY book_id REFERENCES book(id)
+	FOREIGN KEY person_id REFERENCES person(id)	
+)
+
+CREATE TABLE illustrators
+(
+	book_id INTEGER
+	person_id INTEGER
+	PRIMARY KEY (book_id, person_id)
+	FOREIGN KEY book_id REFERENCES book(id)
+	FOREIGN KEY person_id REFERENCES person(id)	
+)
+
+CREATE TABLE translators
+(
+	book_id INTEGER
+	person_id INTEGER
+	PRIMARY KEY (book_id, person_id)
+	FOREIGN KEY book_id REFERENCES book(id)
+	FOREIGN KEY person_id REFERENCES person(id)	
+)
+
