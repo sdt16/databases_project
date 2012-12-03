@@ -16,10 +16,10 @@ app.config.from_envvar('BOOKMGR_SETTINGS', silent=True)
 db = SQLAlchemy(app)
 
 class VendorCode(db.Model):
-	vendor_code = db.Column(db.String, primary_key=True)
+    vendor_code = db.Column(db.String, primary_key=True)
 
-	def __init__(self, vendor_code):
-		self.vendor_code = vendor_code
+    def __init__(self, vendor_code):
+        self.vendor_code = vendor_code
 
 
 class User(db.Model):
@@ -38,108 +38,108 @@ class User(db.Model):
         self.vendor_code = vendor_code
 
 class Book(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	vendor_code = db.Column(db.String, db.ForeignKey('vendor_code.vendor_code'), nullable=False)
-	#vendor_code_relation = db.relationship('VendorCode', backref=db.backref('users', lazy='dynamic'))
-	title = db.Column(db.String)
-	imprint = db.Column(db.String)
-	eisbn = db.Column(db.String)
-	pisbn = db.Column(db.String)
-	language = db.Column(db.String)
-	list_price = db.Column(db.Integer)
-	currency = db.Column(db.Enum('USD', 'EUR', 'GBP', 'CAD', 'CNY', 'JPY', name='currencies'))
-	release_date = db.Column(db.DateTime)
-	publishing_date = db.Column(db.DateTime)
-	desciption = db.Column(db.String)
-	bisac = db.Column(db.String)
-	bic = db.Column(db.String)
-	territory = db.Column(db.Enum('US', 'GB', 'FR', 'IT', 'CN', 'JP', 'ES', 'IE', 'DE', name='country_codes'))
-	adult = db.Column(db.Boolean)
-	edition = db.Column(db.String)
-	series = db.Column(db.Integer, db.ForeignKey('series.id'))
-	volume = db.Column(db.String)
+    id = db.Column(db.Integer, primary_key=True)
+    vendor_code = db.Column(db.String, db.ForeignKey('vendor_code.vendor_code'), nullable=False)
+    #vendor_code_relation = db.relationship('VendorCode', backref=db.backref('users', lazy='dynamic'))
+    title = db.Column(db.String)
+    imprint = db.Column(db.String)
+    eisbn = db.Column(db.String)
+    pisbn = db.Column(db.String)
+    language = db.Column(db.String)
+    list_price = db.Column(db.Integer)
+    currency = db.Column(db.Enum('USD', 'EUR', 'GBP', 'CAD', 'CNY', 'JPY', name='currencies'))
+    release_date = db.Column(db.DateTime)
+    publishing_date = db.Column(db.DateTime)
+    desciption = db.Column(db.String)
+    bisac = db.Column(db.String)
+    bic = db.Column(db.String)
+    territory = db.Column(db.Enum('US', 'GB', 'FR', 'IT', 'CN', 'JP', 'ES', 'IE', 'DE', name='country_codes'))
+    adult = db.Column(db.Boolean)
+    edition = db.Column(db.String)
+    series = db.Column(db.Integer, db.ForeignKey('series.id'))
+    volume = db.Column(db.String)
 
 
-	def __init__(self, title, imprint, eisbn, pisbn, language, list_price, currency, release_date, publishing_date, desciption, 
-		bisac, bic, territory, adult, edition, series, volume):
-		self.title = title
-		self.imprint = imprint
-		self.eisbn = eisbn
-		self.pisbn = pisbn
-		self.language = language
-		self.list_price = list_price
-		self.currency = currency
-		self.release_date = release_date
-		self.publishing_date = publishing_date
-		self.desciption = desciption
-		self.bisac = bisac
-		self.bic = bic
-		self.territory = territory 
-		self.adult = adult
-		self.edition = edition
-		self.series = series
-		self.volume = volume
+    def __init__(self, title, imprint, eisbn, pisbn, language, list_price, currency, release_date, publishing_date, desciption,
+        bisac, bic, territory, adult, edition, series, volume):
+        self.title = title
+        self.imprint = imprint
+        self.eisbn = eisbn
+        self.pisbn = pisbn
+        self.language = language
+        self.list_price = list_price
+        self.currency = currency
+        self.release_date = release_date
+        self.publishing_date = publishing_date
+        self.desciption = desciption
+        self.bisac = bisac
+        self.bic = bic
+        self.territory = territory
+        self.adult = adult
+        self.edition = edition
+        self.series = series
+        self.volume = volume
 
 
 class Authors(db.Model):
-	book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
-	person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
 
-	def __init__(self, book_id, person_id):
-		self.book_id = book_id
-		self.person_id = person_id
+    def __init__(self, book_id, person_id):
+        self.book_id = book_id
+        self.person_id = person_id
 
 class Editors(db.Model):
-	book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
-	person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
 
-	def __init__(self, book_id, person_id):
-		self.book_id = book_id
-		self.person_id = person_id
+    def __init__(self, book_id, person_id):
+        self.book_id = book_id
+        self.person_id = person_id
 
 class Illustrators(db.Model):
-	book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
-	person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
 
-	def __init__(self, book_id, person_id):
-		self.book_id = book_id
-		self.person_id = person_id
+    def __init__(self, book_id, person_id):
+        self.book_id = book_id
+        self.person_id = person_id
 
 class Contributors(db.Model):
-	book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
-	person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
 
-	def __init__(self, book_id, person_id):
-		self.book_id = book_id
-		self.person_id = person_id
+    def __init__(self, book_id, person_id):
+        self.book_id = book_id
+        self.person_id = person_id
 
 
 class Translators(db.Model):
-	book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
-	person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), primary_key=True)
+    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
 
-	def __init__(self, book_id, person_id):
-		self.book_id = book_id
-		self.person_id = person_id
+    def __init__(self, book_id, person_id):
+        self.book_id = book_id
+        self.person_id = person_id
 
 class Person(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	first_name = db.Column(db.String, nullable = False)
-	last_name = db.Column(db.String, nullable = False)
-	birthday = db.Column(db.DateTime)
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String, nullable = False)
+    last_name = db.Column(db.String, nullable = False)
+    birthday = db.Column(db.DateTime)
 
-	def __init__(self, first_name, last_name, birthday):
-		self.first_name = first_name
-		self.last_name = last_name
-		self.birthday = birthday
+    def __init__(self, first_name, last_name, birthday):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.birthday = birthday
 
 class Series(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String, nullable = False)
-	begin_date = db.Column(db.DateTime)
-	end_date = db.Column(db.DateTime)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable = False)
+    begin_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
 
-	def __init__(self, title, begin_date, end_date):
-		self.title = title
-		self.begin_date = begin_date
-		self.end_date = end_date
+    def __init__(self, title, begin_date, end_date):
+        self.title = title
+        self.begin_date = begin_date
+        self.end_date = end_date
