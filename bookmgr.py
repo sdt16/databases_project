@@ -5,7 +5,8 @@ from controller import Controller
 from models import app
 from flask_login_user import DbUser
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
-from flask.ext.principal import Principal, Identity, AnonymousIdentity, identity_changed
+from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
+    identity_changed, identity_loaded, UserNeed, RoleNeed
 
 controller = Controller()
 
@@ -28,14 +29,6 @@ def create_user():
         request.form['vendor_code'])
     return "success"
 
-@login_manager.user_loader
-def load_user(user_id):
-    user = controller.query_user(int(user_id))
-    if user:
-        return DbUser(user)
-    else:
-        return None
-
 
 @app.route('/login', methods=["POST"])
 def login():
@@ -51,6 +44,12 @@ def login():
 @app.route('/book_mgr')
 @login_required
 def book_mgr():
+    books = controller.get_books_for_vendor(current_user.get_vendor_code(), 20, 0)
+    return render_template('book_mgr.html', page_title='Book Manager', books=books)
+
+@app.route('/edit_book')
+@login_required
+def book_edit():
     return render_template('book_mgr.html', page_title='Book Manager')
 
 @app.route('/logout')
@@ -68,6 +67,31 @@ def logout():
 
     return redirect(request.args.get('next') or '/')
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    user = controller.query_user(int(user_id))
+    if user:
+        return DbUser(user)
+    else:
+        return None
+
+@identity_loaded.connect_via(app)
+def on_identity_loaded(sender, identity):
+    # Set the identity user object
+    identity.user = current_user
+
+    # Add the UserNeed to the identity
+    if hasattr(current_user, 'id'):
+        identity.provides.add(UserNeed(current_user.id))
+
+    identity.provides.add(UserNeed(current_user.get_vendor_code()))
+
+    # Assuming the User model has a list of roles, update the
+    # identity with the roles that the user provides
+    if hasattr(current_user, 'roles'):
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role.name))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

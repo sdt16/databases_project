@@ -1,4 +1,4 @@
-from models import db, User
+from models import db, User, Book
 
 class Controller():
     def create_user(self, name, email, password, vendor_code):
@@ -13,3 +13,7 @@ class Controller():
             return None
     def query_user(self, user_id):
             return User.query.get(user_id)
+
+    def get_books_for_vendor(self, vendor_code, num, offset):
+        books = Book.query.filter_by(vendor_code = vendor_code)
+        return books

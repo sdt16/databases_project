@@ -17,3 +17,5 @@ class DbUser(object):
     def is_authenticated(self):
         return True
 
+    def get_vendor_code(self):
+        return self._user.vendor_code
