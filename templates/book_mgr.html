@@ -23,7 +23,7 @@
                 <td>{{ book.list_price }}</td>
                 <td>{{ book.currency }}</td>
                 <td>{{ book.release }}</td>
-                <td><a href="{{ url_for('book_edit') }}">Edit</a></td>
+                <td><a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a></td>
             </tr>
         {% endfor %}
     </tbody>

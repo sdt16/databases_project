@@ -17,3 +17,7 @@ class Controller():
     def get_books_for_vendor(self, vendor_code, num, offset):
         books = Book.query.filter_by(vendor_code = vendor_code)
         return books
+
+    def get_book_by_id(self, vendor_code, id):
+        book = Book.query.filter_by(vendor_code = vendor_code, id=id).first()
+        return book

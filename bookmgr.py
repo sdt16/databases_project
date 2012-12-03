@@ -47,10 +47,11 @@ def book_mgr():
     books = controller.get_books_for_vendor(current_user.get_vendor_code(), 20, 0)
     return render_template('book_mgr.html', page_title='Book Manager', books=books)
 
-@app.route('/edit_book')
+@app.route('/edit_book/<int:book_id>', methods=["GET", "PUT"])
 @login_required
-def book_edit():
-    return render_template('book_mgr.html', page_title='Book Manager')
+def book_edit(book_id):
+    book = controller.get_book_by_id(current_user.get_vendor_code(), book_id)
+    return render_template('book_edit.html', page_title='Edit a book', book=book)
 
 @app.route('/logout')
 @login_required
