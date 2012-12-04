@@ -1,3 +1,4 @@
+from series_edit_form import edit_series
 from sqlalchemy import create_engine
 from flask import request, session, g, redirect, url_for, \
     abort, render_template, flash, current_app
@@ -8,7 +9,6 @@ from flask.ext.login import LoginManager, login_user, logout_user, login_require
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed, identity_loaded, UserNeed, RoleNeed
 from book_edit_form import book_edit_form
-from decimal import *
 
 controller = Controller()
 
@@ -70,6 +70,26 @@ def book_edit(book_id):
                 controller.update_book(book_id, k, v)
         return redirect(url_for('book_mgr'))
     return render_template('book_edit.html', page_title='Edit a book', book=book, form=form)
+
+@app.route('/view_series')
+@login_required
+def view_series():
+    series = controller.get_all_series()
+    return render_template('view_series.html', series=series)
+
+@app.route('/edit_series/<int:series_id>', methods=["GET", "POST"])
+@login_required
+def series_edit(series_id):
+    series = controller.get_series_by_id(series_id)
+    form = edit_series(title = series.title, begin_date = series.begin_date, end_date = series.end_date)
+    if form.validate_on_submit():
+        flash('Success')
+        for k,v in form.data.items():
+            if v is not None:
+                controller.update_series(series_id, k, v)
+        return redirect(url_for('view_series'))
+    return render_template('series_edit.html', page_title='Series Edit', series=series, form=form)
+
 
 @app.route('/logout')
 @login_required

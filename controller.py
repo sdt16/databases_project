@@ -36,6 +36,9 @@ class Controller():
                 db.session.add(obj)
         db.session.commit()
 
+    def get_series_by_id(self, series_id):
+        return Series.query.filter_by(id = series_id).first()
+
     def get_selected_people(self, book_id):
         return_dict = dict()
         for k,v in list_attrs.items():
@@ -43,6 +46,10 @@ class Controller():
             list = map(lambda person_obj: person_obj.person_id, people)
             return_dict[k] = list
         return return_dict
+
+    def update_series(self, series_id, attr, value):
+        Series.query.filter_by(id=series_id).update({attr: value})
+        db.session.commit()
 
     def get_all_series(self):
         return Series.query

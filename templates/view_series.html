@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Series Title</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for s in series|sort(attribute='id') %}
+            {% if s.id != 1 %}
+            <tr>
+                <td>{{ s.title }}</td>
+                <td>{{ s.begin_date }}</td>
+                <td>{{ s.end_date }}</td>
+                <td><a href="{{ url_for('series_edit', series_id=s.id) }}">Edit</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
