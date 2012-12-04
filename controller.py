@@ -1,4 +1,4 @@
-from models import db, User, Book
+from models import db, User, Book, Series
 
 class Controller():
     def create_user(self, name, email, password, vendor_code):
@@ -25,3 +25,6 @@ class Controller():
     def update_book(self, book_id, attr, value):
         Book.query.filter_by(id=book_id).update({attr: value})
         db.session.commit()
+
+    def get_all_series(self):
+        return Series.query

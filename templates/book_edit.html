@@ -20,13 +20,16 @@
     <fieldset>
         <legend>Price</legend>
         {{ render_field(form.list_price, value=book.list_price|default('', True)) }}
-        {{ render_field(form.currency, selected=book.currency|default('USD', True)) }}
+        {{ render_field(form.currency) }}
     </fieldset>
     <fieldset>
         <legend>Series Info</legend>
-        {{ render_field(form.series, value=book.series|default('', True)) }}
+        {{ render_field(form.series) }}
         {{ render_field(form.edition, value=book.edition|default('', True)) }}
         {{ render_field(form.volume, value=book.volume|default('', True)) }}
+    </fieldset>
+    <fieldset>
+        {{ render_field(form.territory) }}
     </fieldset>
     <input type="submit" class="btn" value="Submit" />
 </form>
