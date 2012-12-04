@@ -1,4 +1,5 @@
-from flask.ext.wtf import Form, TextField, DecimalField, SelectField, DateField, TextAreaField, BooleanField, Optional
+from flask.ext.wtf import Form, TextField, DecimalField, SelectField, DateField, \
+    TextAreaField, BooleanField, Optional, SelectMultipleField
 
 class book_edit_form(Form):
     title = TextField("Title")
@@ -19,3 +20,9 @@ class book_edit_form(Form):
     edition = TextField("Edition")
     series = SelectField("Series", coerce=int)
     volume = TextField("Volume")
+    authors = SelectMultipleField("Authors", coerce=int)
+    editors = SelectMultipleField("Editors", coerce=int)
+    illustrators = SelectMultipleField("Illustrators", coerce=int)
+    contributors =  SelectMultipleField("Contributors", coerce=int)
+    translators = SelectMultipleField("Translators", coerce=int)
+

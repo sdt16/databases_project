@@ -13,6 +13,14 @@
         {{ render_field(form.description, value=book.description|default('', True)) }}
     </fieldset>
     <fieldset>
+        <legend>People</legend>
+        {{ render_field(form.authors) }}
+        {{ render_field(form.editors) }}
+        {{ render_field(form.illustrators) }}
+        {{ render_field(form.contributors) }}
+        {{ render_field(form.translators) }}
+    </fieldset>
+    <fieldset>
         <legend>Description Codes</legend>
         {{ render_field(form.bic, value=book.bic|default('', True)) }}
         {{ render_field(form.bisac, value=book.bisac|default('', True)) }}
@@ -29,6 +37,7 @@
         {{ render_field(form.volume, value=book.volume|default('', True)) }}
     </fieldset>
     <fieldset>
+        <legend>Sales Rights</legend>
         {{ render_field(form.territory) }}
     </fieldset>
     <input type="submit" class="btn" value="Submit" />

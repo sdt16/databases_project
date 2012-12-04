@@ -53,14 +53,21 @@ def book_mgr():
 @login_required
 def book_edit(book_id):
     book = controller.get_book_by_id(current_user.get_vendor_code(), book_id)
-    form = book_edit_form(territory = book.territory, currency = book.currency, series = book.series)
+    people = controller.get_people()
+    people_selected = controller.get_selected_people(book_id)
+    form = book_edit_form(territory = book.territory, currency = book.currency, series = book.series, **people_selected)
     form.series.choices = [(series.id, series.title) for series in controller.get_all_series()]
+    people_list = [(person.id, (person.last_name + ", " + person.first_name)) for person in people]
+    form.authors.choices = people_list
+    form.illustrators.choices = people_list
+    form.editors.choices = people_list
+    form.contributors.choices = people_list
+    form.translators.choices = people_list
     if form.validate_on_submit():
         flash('Success')
         for k,v in form.data.items():
             if v is not None:
                 controller.update_book(book_id, k, v)
-
         return redirect(url_for('book_mgr'))
     return render_template('book_edit.html', page_title='Edit a book', book=book, form=form)
 
