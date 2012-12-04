@@ -50,7 +50,7 @@ class Book(db.Model):
     currency = db.Column(db.Enum('USD', 'EUR', 'GBP', 'CAD', 'CNY', 'JPY', name='currencies'))
     release_date = db.Column(db.DateTime)
     publishing_date = db.Column(db.DateTime)
-    desciption = db.Column(db.String)
+    description = db.Column(db.String)
     bisac = db.Column(db.String)
     bic = db.Column(db.String)
     territory = db.Column(db.Enum('US', 'GB', 'FR', 'IT', 'CN', 'JP', 'ES', 'IE', 'DE', name='country_codes'))
@@ -71,7 +71,7 @@ class Book(db.Model):
         self.currency = currency
         self.release_date = release_date
         self.publishing_date = publishing_date
-        self.desciption = desciption
+        self.description = desciption
         self.bisac = bisac
         self.bic = bic
         self.territory = territory

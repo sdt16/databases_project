@@ -7,6 +7,8 @@ from flask_login_user import DbUser
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed, identity_loaded, UserNeed, RoleNeed
+from book_edit_form import book_edit_form
+from decimal import *
 
 controller = Controller()
 
@@ -47,11 +49,22 @@ def book_mgr():
     books = controller.get_books_for_vendor(current_user.get_vendor_code(), 20, 0)
     return render_template('book_mgr.html', page_title='Book Manager', books=books)
 
-@app.route('/edit_book/<int:book_id>', methods=["GET", "PUT"])
+@app.route('/edit_book/<int:book_id>', methods=["GET", "POST"])
 @login_required
 def book_edit(book_id):
+    form = book_edit_form()
+    if form.validate_on_submit():
+        flash('Success')
+        for k,v in form.data.items():
+            if k is "list_price":
+                if v is not None:
+                    controller.update_book(book_id, k, int(v * Decimal(100)))
+            else:
+                controller.update_book(book_id, k, v)
+
+        return redirect(url_for('book_mgr'))
     book = controller.get_book_by_id(current_user.get_vendor_code(), book_id)
-    return render_template('book_edit.html', page_title='Edit a book', book=book)
+    return render_template('book_edit.html', page_title='Edit a book', book=book, form=form)
 
 @app.route('/logout')
 @login_required

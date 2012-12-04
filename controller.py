@@ -21,3 +21,7 @@ class Controller():
     def get_book_by_id(self, vendor_code, id):
         book = Book.query.filter_by(vendor_code = vendor_code, id=id).first()
         return book
+
+    def update_book(self, book_id, attr, value):
+        Book.query.filter_by(id=book_id).update({attr: value})
+        db.session.commit()
