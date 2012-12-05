@@ -9,7 +9,7 @@ if 'ON_HEROKU' in os.environ:
 
 #configuration
 DEBUG = True
-SECRET_KEY = 'development key'
+SECRET_KEY = os.environ.get('DEV_KEY', 'development key')
 USERNAME = 'admin'
 PASSWORD = 'default'
 if on_heroku:
