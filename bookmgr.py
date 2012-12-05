@@ -9,6 +9,7 @@ from flask.ext.login import LoginManager, login_user, logout_user, login_require
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed, identity_loaded, UserNeed, RoleNeed
 from book_edit_form import book_edit_form
+from person_edit_form import person_form
 
 controller = Controller()
 
@@ -111,6 +112,45 @@ def series_edit(series_id):
         return redirect(url_for('view_series'))
 
     return render_template('series_edit.html', page_title='Series Edit', series=series, form=form)
+
+@app.route('/edit_person/<int:person_id>', methods=["GET", "POST"])
+@login_required
+def person_edit(person_id):
+    person = controller.get_person_by_id(person_id)
+    form = person_form(first_name = person.first_name, last_name = person.last_name, birthday = person.birthday)
+    if form.validate_on_submit():
+        for k,v in form.data.items():
+            if v is not None:
+                controller.update_person(person_id, k, v)
+        flash('Successfully updated')
+        return redirect(url_for('view_people'))
+    return render_template('person_edit.html', page_title='People Edit', person=person, form=form)
+
+@app.route('/add_person', methods=["GET", "POST"])
+@login_required
+def person_add():
+    form = person_form()
+    if form.validate_on_submit():
+        controller.add_person(form.data)
+        flash('Successfully added a new person')
+        return redirect(url_for('view_people'))
+    return render_template('person_edit.html', page_title='People Edit', form=form)
+
+@app.route('/view_people')
+@login_required
+def view_people():
+    people = controller.get_people()
+    return render_template('view_people.html', people=people)
+
+@app.route('/add_series', methods=["GET", "POST"])
+@login_required
+def series_add():
+    form = edit_series()
+    if form.validate_on_submit():
+        controller.add_series(form.data)
+        flash('Successfully added a series')
+        return redirect(url_for('view_series'))
+    return render_template('series_edit.html', page_title='Series Edit', form=form)
 
 
 @app.route('/logout')

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% from "_formhelpers.html" import render_field, render_date_field %}
+
+    <form action="{% if person %}{{ url_for('person_edit', person_id=person.id) }}
+              {% else %} {{ url_for('person_add') }}
+              {% endif %}" method="post">
+        {{ form.csrf_token }}
+        <fieldset>
+            <legend>Person Info</legend>
+            {{ render_field(form.first_name) }}
+            {{ render_field(form.last_name) }}
+            {{ render_date_field(form.birthday, readonly='') }}
+        </fieldset>
+        <input type="submit" class="btn" value="Submit" />
+    </form>
+{% endblock %}

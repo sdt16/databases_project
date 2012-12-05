@@ -54,6 +54,11 @@ class Controller():
         Series.query.filter_by(id=series_id).update({attr: value})
         db.session.commit()
 
+    def add_series(self, data):
+        series = Series(data["title"], data["begin_date"], data["end_date"])
+        db.session.add(series)
+        db.session.commit()
+
     def get_all_series(self):
         return Series.query
 
@@ -73,5 +78,17 @@ class Controller():
             db.session.commit()
         else:
             return Book()
+
+    def get_person_by_id(self, person_id):
+        return Person.query.filter_by(id=person_id).first()
+
+    def update_person(self, person_id, attr, value):
+        Person.query.filter_by(id=person_id).update({attr: value})
+        db.session.commit()
+
+    def add_person(self, data):
+        person = Person(data["first_name"], data["last_name"], data["birthday"])
+        db.session.add(person)
+        db.session.commit()
 
 

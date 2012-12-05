@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birthday</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in people|sort(attribute='id') %}
+            <tr>
+                <td>{{ p.first_name}}</td>
+                <td>{{ p.last_name }}</td>
+                <td>{{ p.birthday }}</td>
+                <td><a href="{{ url_for('person_edit', person_id=p.id) }}">Edit</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
