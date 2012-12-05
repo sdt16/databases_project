@@ -1,12 +1,21 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+import os
+
+on_heroku = False
+if 'ON_HEROKU' in os.environ:
+    on_heroku = True
+
 
 #configuration
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
-SQLALCHEMY_DATABASE_URI = 'postgresql://devo:test@localhost:5432/bookmgr_test'
+if on_heroku:
+    SQLALCHEMY_DATABASE_URI = os.environ["DB_URL"]
+else:
+    SQLALCHEMY_DATABASE_URI = 'postgresql://devo:test@localhost:5432/bookmgr_test'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
