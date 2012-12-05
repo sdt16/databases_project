@@ -24,7 +24,7 @@ def connect_db():
 def home():
     if current_user.is_authenticated():
         return redirect(url_for('book_mgr'))
-    return render_template('index.html', page_title='Home')
+    return render_template('index.html', page_title='Home', not_logged_in=True)
 
 @app.route('/user', methods=["POST"])
 # warning, this is obviously a really dumb way of storing user creds,

@@ -12,9 +12,12 @@
 				<div class="container">
 					<a href="/" class="brand">Book Manager</a>
                     <ul class="nav">
-                        <li><a href="{{ url_for('book_mgr') }}">Books</a></li>
-                        <li><a href="{{ url_for('view_series') }}">Series</a></li>
-                        <li><a href="{{ url_for('view_people') }}">People</a></li>
+                        {% if not not_logged_in %}
+                            <li><a href="{{ url_for('book_mgr') }}">Books</a></li>
+                            <li><a href="{{ url_for('view_series') }}">Series</a></li>
+                            <li><a href="{{ url_for('view_people') }}">People</a></li>
+                            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                        {% endif %}
                     </ul>
 				</div>
 			</div>
