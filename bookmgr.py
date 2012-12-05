@@ -10,6 +10,7 @@ from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed, identity_loaded, UserNeed, RoleNeed
 from book_edit_form import book_edit_form
 from person_edit_form import person_form
+import os
 
 controller = Controller()
 
@@ -195,4 +196,5 @@ def on_identity_loaded(sender, identity):
             identity.provides.add(RoleNeed(role.name))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
