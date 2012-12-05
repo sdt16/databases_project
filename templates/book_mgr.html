@@ -1,31 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>EISBN</th>
-            <th>PISBN</th>
-            <th>List Price</th>
-            <th>Currency</th>
-            <th>Release Date</th>
-            <th>Edit</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for book in books|sort(attribute='id') %}
+    <a href="{{ url_for('book_add') }}" class="btn btn-primary btn-large">Add book</a>
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.eisbn }}</td>
-                <td>{{ book.psibn }}</td>
-                <td>{{ book.list_price }}</td>
-                <td>{{ book.currency }}</td>
-                <td>{{ book.release }}</td>
-                <td><a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a></td>
+                <th>Title</th>
+                <th>Author</th>
+                <th>EISBN</th>
+                <th>PISBN</th>
+                <th>List Price</th>
+                <th>Currency</th>
+                <th>Release Date</th>
+                <th>Edit</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for book in books|sort(attribute='id') %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.eisbn }}</td>
+                    <td>{{ book.psibn }}</td>
+                    <td>{{ book.list_price }}</td>
+                    <td>{{ book.currency }}</td>
+                    <td>{{ book.release_date }}</td>
+                    <td><a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

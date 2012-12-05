@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block body %}
-{% from "_formhelpers.html" import render_field %}
+{% from "_formhelpers.html" import render_field, render_date_field %}
 
 <form action="{{ url_for('series_edit', series_id=series.id) }}" method="post">
     {{ form.csrf_token }}
     <fieldset>
         <legend>Series Info</legend>
         {{ render_field(form.title) }}
-        {{ render_field(form.begin_date) }}
-        {{ render_field(form.end_date) }}
+        {{ render_date_field(form.begin_date, readonly='') }}
+        {{ render_date_field(form.end_date, readonly='') }}
     </fieldset>
     <input type="submit" class="btn" value="Submit" />
 </form>

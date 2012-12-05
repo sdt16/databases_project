@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
-{% from "_formhelpers.html" import render_field %}
-<form action="{{ url_for('book_edit', book_id=book.id) }}" method="post">
+{% from "_formhelpers.html" import render_field, render_date_field %}
+<form action="{% if book.id %}{{ url_for('book_edit', book_id=book.id) }}
+              {% else %} {{ url_for('book_add') }}
+              {% endif %}" method="post">
     {{ form.csrf_token }}
     <fieldset>
         <legend>Basic Info</legend>
@@ -19,6 +21,11 @@
         {{ render_field(form.illustrators) }}
         {{ render_field(form.contributors) }}
         {{ render_field(form.translators) }}
+    </fieldset>
+    <fieldset>
+        <legend>Dates</legend>
+        {{ render_date_field(form.release_date) }}
+        {{ render_date_field(form.publishing_date) }}
     </fieldset>
     <fieldset>
         <legend>Description Codes</legend>

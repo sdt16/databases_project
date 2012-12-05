@@ -20,6 +20,8 @@ def connect_db():
 
 @app.route('/')
 def home():
+    if current_user:
+        return redirect(url_for('book_mgr'))
     return render_template('index.html', page_title='Home')
 
 @app.route('/user', methods=["POST"])
@@ -49,6 +51,25 @@ def book_mgr():
     books = controller.get_books_for_vendor(current_user.get_vendor_code(), 20, 0)
     return render_template('book_mgr.html', page_title='Book Manager', books=books)
 
+@app.route('/add_book', methods=["GET", "POST"])
+@login_required
+def book_add():
+    people = controller.get_people()
+    people_selected = controller.get_selected_people()
+    form = book_edit_form(**people_selected)
+    form.series.choices = [(series.id, series.title) for series in controller.get_all_series()]
+    people_list = [(person.id, (person.last_name + ", " + person.first_name)) for person in people]
+    form.authors.choices = people_list
+    form.illustrators.choices = people_list
+    form.editors.choices = people_list
+    form.contributors.choices = people_list
+    form.translators.choices = people_list
+    if form.validate_on_submit():
+        controller.new_book(current_user.get_vendor_code(), form.data)
+        flash("Successfully created a new book")
+        return redirect(url_for('book_mgr'))
+    return render_template('book_edit.html', page_title='Add a new book', book = controller.new_book(), form = form)
+
 @app.route('/edit_book/<int:book_id>', methods=["GET", "POST"])
 @login_required
 def book_edit(book_id):
@@ -64,10 +85,10 @@ def book_edit(book_id):
     form.contributors.choices = people_list
     form.translators.choices = people_list
     if form.validate_on_submit():
-        flash('Success')
         for k,v in form.data.items():
             if v is not None:
                 controller.update_book(book_id, k, v)
+        flash('Successfully updated')
         return redirect(url_for('book_mgr'))
     return render_template('book_edit.html', page_title='Edit a book', book=book, form=form)
 
@@ -83,11 +104,12 @@ def series_edit(series_id):
     series = controller.get_series_by_id(series_id)
     form = edit_series(title = series.title, begin_date = series.begin_date, end_date = series.end_date)
     if form.validate_on_submit():
-        flash('Success')
         for k,v in form.data.items():
             if v is not None:
                 controller.update_series(series_id, k, v)
+        flash('Successfully updated')
         return redirect(url_for('view_series'))
+
     return render_template('series_edit.html', page_title='Series Edit', series=series, form=form)
 
 

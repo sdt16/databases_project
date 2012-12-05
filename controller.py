@@ -39,12 +39,15 @@ class Controller():
     def get_series_by_id(self, series_id):
         return Series.query.filter_by(id = series_id).first()
 
-    def get_selected_people(self, book_id):
+    def get_selected_people(self, book_id=None):
         return_dict = dict()
         for k,v in list_attrs.items():
-            people = v.query.filter_by(book_id = book_id).all()
-            list = map(lambda person_obj: person_obj.person_id, people)
-            return_dict[k] = list
+            if book_id:
+                people = v.query.filter_by(book_id = book_id).all()
+                list = map(lambda person_obj: person_obj.person_id, people)
+                return_dict[k] = list
+            else:
+                return_dict[k] = []
         return return_dict
 
     def update_series(self, series_id, attr, value):
@@ -56,3 +59,19 @@ class Controller():
 
     def get_people(self):
         return Person.query
+
+    def new_book(self):
+        return Book()
+
+    def new_book(self, vendor_code=None, book_info=None):
+        if vendor_code and book_info:
+            book = Book(vendor_code, book_info['title'], book_info['imprint'], book_info['eisbn'], book_info['pisbn'],
+                book_info['language'], book_info['list_price'], book_info['currency'], book_info['release_date'],
+                book_info['publishing_date'], book_info['description'], book_info['bisac'], book_info['bic'],
+                book_info['territory'], book_info['adult'], book_info['edition'], book_info['series'], book_info['volume'])
+            db.session.add(book)
+            db.session.commit()
+        else:
+            return Book()
+
+

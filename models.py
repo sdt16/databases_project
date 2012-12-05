@@ -60,8 +60,10 @@ class Book(db.Model):
     volume = db.Column(db.String)
 
 
-    def __init__(self, title, imprint, eisbn, pisbn, language, list_price, currency, release_date, publishing_date, desciption,
-        bisac, bic, territory, adult, edition, series, volume):
+    def __init__(self, vendor_code=None, title=None, imprint=None, eisbn=None, pisbn=None, language=None,
+                 list_price=None, currency=None, release_date=None, publishing_date=None, desciption=None,
+                 bisac=None, bic=None, territory=None, adult=None, edition=None, series=None, volume=None):
+        self.vendor_code = vendor_code
         self.title = title
         self.imprint = imprint
         self.eisbn = eisbn
