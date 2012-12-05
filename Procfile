@@ -1,1 +1,1 @@
-web: python book_mgr.py
+web: python bookmgr.py
