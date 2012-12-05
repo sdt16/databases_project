@@ -5,7 +5,7 @@ from flask import request, session, g, redirect, url_for, \
 from controller import Controller
 from models import app
 from flask_login_user import DbUser
-from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
+from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user, confirm_login
 from flask.ext.principal import Principal, Identity, AnonymousIdentity, \
     identity_changed, identity_loaded, UserNeed, RoleNeed
 from book_edit_form import book_edit_form
@@ -22,7 +22,7 @@ def connect_db():
 
 @app.route('/')
 def home():
-    if current_user:
+    if current_user.is_authenticated():
         return redirect(url_for('book_mgr'))
     return render_template('index.html', page_title='Home')
 
