@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form, TextField, DecimalField, SelectField, DateField, \
     TextAreaField, BooleanField, Optional, SelectMultipleField
+from wtforms import ValidationError
 
 class book_edit_form(Form):
     title = TextField("Title")
@@ -25,4 +26,8 @@ class book_edit_form(Form):
     illustrators = SelectMultipleField("Illustrators", coerce=int)
     contributors =  SelectMultipleField("Contributors", coerce=int)
     translators = SelectMultipleField("Translators", coerce=int)
+
+    def validate_publishing_date(self, field):
+        if field.data > self.release_date.data:
+            raise ValidationError("The publishing date must be before or equal to the release date.")
 

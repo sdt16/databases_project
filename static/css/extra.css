@@ -4,8 +4,14 @@ body {
 
 .alert{
     margin-top: 20px;
+    margin-bottom: 0px;
 }
 
 .btn{
     margin-top: 20px;
+}
+
+.form-error{
+    margin-left: 10px;
+    font-size: 15px;
 }

@@ -154,3 +154,13 @@ class Series(db.Model):
         self.title = title
         self.begin_date = begin_date
         self.end_date = end_date
+
+class For_sale_status(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sell_in_uk = db.Column(db.Boolean)
+    sell_in_us = db.Column(db.Boolean)
+
+    def __init__(self, id, sell_in_uk, sell_in_us):
+        self.id = id
+        self.sell_in_uk = sell_in_uk
+        self.sell_in_us = sell_in_us

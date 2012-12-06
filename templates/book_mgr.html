@@ -11,6 +11,8 @@
                 <th>List Price</th>
                 <th>Currency</th>
                 <th>Release Date</th>
+                <th>For sale in the UK</th>
+                <th>For sale in the US</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -24,6 +26,16 @@
                     <td>{{ book.list_price }}</td>
                     <td>{{ book.currency }}</td>
                     <td>{{ book.release_date }}</td>
+                    <td>{% if for_sale_status[book.id]['uk'] %}
+                            <i class="icon-ok"></i>
+                        {% else %}
+                            <i class="icon-remove"></i>
+                    {% endif %}</td>
+                    <td>{% if for_sale_status[book.id]['us'] %}
+                            <i class="icon-ok"></i>
+                        {% else %}
+                            <i class="icon-remove"></i>
+                    {% endif %}</td>
                     <td><a href="{{ url_for('book_edit', book_id=book.id) }}">Edit</a></td>
                 </tr>
             {% endfor %}

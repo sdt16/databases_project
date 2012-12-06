@@ -51,7 +51,12 @@ def login():
 @login_required
 def book_mgr():
     books = controller.get_books_for_vendor(current_user.get_vendor_code(), 20, 0)
-    return render_template('book_mgr.html', page_title='Book Manager', books=books)
+    book_ids = [b.id for b in books.all()]
+    for_sale_status = dict()
+    for book_id in book_ids:
+        status = controller.for_sale_status(book_id)
+        for_sale_status[book_id] = {'us': status.sell_in_us, 'uk': status.sell_in_uk}
+    return render_template('book_mgr.html', page_title='Book Manager', books=books, for_sale_status=for_sale_status)
 
 @app.route('/add_book', methods=["GET", "POST"])
 @login_required

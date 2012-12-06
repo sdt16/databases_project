@@ -1,4 +1,4 @@
-from models import db, User, Book, Series, Person, Authors, Illustrators, Editors, Contributors, Translators
+from models import db, User, Book, Series, Person, Authors, Illustrators, Editors, Contributors, Translators, For_sale_status
 
 list_attrs = {'authors': Authors,'illustrators': Illustrators, 'editors': Editors,
               'contributors': Contributors, 'translators': Translators}
@@ -90,5 +90,8 @@ class Controller():
         person = Person(data["first_name"], data["last_name"], data["birthday"])
         db.session.add(person)
         db.session.commit()
+
+    def for_sale_status(self, book_id):
+        return For_sale_status.query.filter_by(id=book_id).first()
 
 
