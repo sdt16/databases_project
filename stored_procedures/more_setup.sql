@@ -1,3 +1,9 @@
+create or replace function empty(x varchar) returns bool as $$
+BEGIN
+	return (x is null OR x = '');
+END;
+$$ LANGUAGE plpgsql;
+
 create or replace function sell_in_anywhere(book book) returns bool as $$
 declare
 	can_sell BOOL;
@@ -65,3 +71,8 @@ begin
 	return can_sell;
 end;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE VIEW for_sale_status AS 
+ SELECT b.id, sell_in_uk(b.*) AS sell_in_uk, sell_in_us(b.*) AS sell_in_us
+   FROM book b
+  ORDER BY b.id;

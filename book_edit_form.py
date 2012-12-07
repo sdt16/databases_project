@@ -1,12 +1,13 @@
 from flask.ext.wtf import Form, TextField, DecimalField, SelectField, DateField, \
     TextAreaField, BooleanField, Optional, SelectMultipleField
 from wtforms import ValidationError
+from isbn import isValid
 
 class book_edit_form(Form):
     title = TextField("Title")
     imprint = TextField("Imprint")
-    eisbn = TextField("eISBN")
-    pisbn = TextField("pISBN")
+    eisbn = TextField("eISBN", validators=[Optional()])
+    pisbn = TextField("pISBN", validators=[Optional()])
     language = TextField("Language")
     list_price = DecimalField("List Price", places=2, validators=[Optional()])
     currency = SelectField("Currency", choices=[(g,g) for g in ['none', 'USD', 'EUR', 'GBP', 'CAD', 'CNY', 'JPY']])
@@ -30,4 +31,15 @@ class book_edit_form(Form):
     def validate_publishing_date(self, field):
         if field.data > self.release_date.data:
             raise ValidationError("The publishing date must be before or equal to the release date.")
+
+    def is_isbn_valid(self, isbn):
+        if not isValid(isbn):
+            raise ValidationError("The ISBN entered is not valid.")
+
+    def validate_eisbn(self, field):
+        self.is_isbn_valid(field.data)
+
+    def validate_pisbn(self, field):
+        self.is_isbn_valid(field.data)
+
 
